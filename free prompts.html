@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width= <section id="free promps" class="section">
+      <style>
+      :root { --bg:#0b1020; --card:#121a33; --text:#eaf0ff; --muted:#b8c2ff; --accent:#7c5cff; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:radial-gradient(1200px 600px at 20% 0%, #1b2a6b 0%, var(--bg) 55%);color:var(--text)}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1120px;margin:0 auto;padding:20px}
+    header{position:sticky;top:0;backdrop-filter:blur(10px);background:rgba(11,16,32,.62);border-bottom:1px solid rgba(255,255,255,.08);z-index:10}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.3px}
+    .logo{width:38px;height:38px;border-radius:14px;background:linear-gradient(135deg,var(--accent),#28d7ff)}
+    .links{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);cursor:pointer}
+    .btn.primary{background:linear-gradient(135deg,var(--accent),#28d7ff);border:0;color:#06101a;font-weight:900}
+    .badge{font-size:12px;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:inline-block}
+    .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center;padding:34px 0}
+    .h1{font-size:44px;line-height:1.05;margin:12px 0 10px}
+    .p{color:var(--muted);font-size:16px;line-height:1.6;margin:0 0 18px}
+    .panel{border:1px solid rgba(255,255,255,.10);background:rgba(18,26,51,.7);border-radius:22px;padding:18px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .card{border:1px solid rgba(255,255,255,.10);background:rgba(18,26,51,.6);border-radius:18px;padding:16px}
+    .card h3{margin:0 0 6px}
+    .card p{margin:0;color:var(--muted);line-height:1.5}
+    .section{padding:26px 0}
+    .section h2{margin:0 0 10px;font-size:26px}
+    .products{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .prod{display:flex;flex-direction:column;gap:10px}
+    .prod img{width:100%;height:170px;object-fit:cover;border-radius:14px;border:1px solid rgba(255,255,255,.10)}
+    .price{font-weight:900}
+    .pill{font-size:12px;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.10);color:var(--muted)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    footer{padding:26px 0;color:var(--muted);border-top:1px solid rgba(255,255,255,.08)}
+    @media (max-width:980px){ .hero{grid-template-columns:1fr} .grid,.products{grid-template-columns:1fr} .h1{font-size:36px} }
+    input{outline:none}
+  </style>
+</head>
+<header>
+   <div class="wrap nav">
+    <a href="DeybieGem.html">Go back to home page</a>
+  </div>
+</header>
+  <h2>Free Daily Prompts</h2>                 
+  <p class="p">
+    New prompts daily — grab today’s set for free. Includes both readable text prompts and a JSON pack.
+  </p>
+
+  <div class="grid" style="grid-template-columns:1.2fr .8fr;gap:14px">
+    <!-- Viewer -->
+    <div class="panel">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <strong id="dailyTitle">Today’s Free Pack</strong>
+        <span class="pill" id="dailyDate"></span>
+      </div>
+
+      <div id="dailyList" style="margin-top:12px;display:grid;gap:10px"></div>
+
+      <div class="row" style="margin-top:12px">
+        <button class="btn" onclick="copyDailyJson()">Copy JSON prompt</button>
+        <a class="btn primary" id="dailyDownload" href="#" download>Download JSON format prompt</a>
+      </div>
+
+      <details style="margin-top:12px">
+        <summary class="pill" style="cursor:pointer;display:inline-block">Show raw JSON</summary>
+        <pre id="dailyJson"
+          style="white-space:pre-wrap;word-wrap:break-word;margin-top:10px;background:rgba(255,255,255,.05);padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.10);color:var(--muted)"></pre>
+      </details>
+    </div>
+
+    <!-- Uploader (admin) -->
+    <div class="card">
+      <h3 style="margin:0 0 6px">Upload today’s free prompts (admin)</h3>
+      <p class="p" style="margin:0 0 12px">
+        Paste your JSON pack and publish it. Keep your admin token private.
+      </p>
+
+      <label class="pill" style="display:inline-block;margin-bottom:8px">Admin Token</label>
+      <input id="adminToken" type="password" placeholder="x-admin-token"
+        style="width:100%;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text);margin-bottom:10px" />
+
+      <label class="pill" style="display:inline-block;margin-bottom:8px">Daily JSON Pack</label>
+      <textarea id="dailyPackInput" rows="10" placeholder='{"title":"Free Daily Prompts","prompts":[...]}'
+        style="width:100%;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text)"></textarea>
+
+      <div class="row" style="margin-top:10px">
+        <button class="btn primary" onclick="uploadDailyPack()">Publish Today</button>
+        <button class="btn" onclick="loadDailyPack()">Refresh</button>
+      </div>
+
+      <div id="dailyUploadMsg" style="margin-top:10px;color:var(--muted)"></div>
+    </div>
+  </div>
+</section>
+
+    <title>Document</title>
+</head>
+<body>
+</body>
+</html>
